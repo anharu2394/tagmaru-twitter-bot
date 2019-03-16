@@ -53,5 +53,7 @@ func main() {
 	result_posts := request.GetTrendPosts()
 	fmt.Printf("%v", result_posts[0].Title)
 
+	tweetTrendPosts(api, result_posts)
+
 	log.Printf("Hello")
 }
