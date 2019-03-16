@@ -50,15 +50,15 @@ func tweetTrendPosts(api *anaconda.TwitterApi, posts []request.Post) {
 
 func tweetEachOfAPost(api *anaconda.TwitterApi, posts []request.Post, first_i int) {
 	for _, v := range posts[first_i:] {
+		var tweet_text string
 		switch v.Url {
 		case "qiita":
-			tweet_text := "今日のトレンド記事にゃん\n" + v.Title + "\n" + "qiita.com" + v.Url
+			tweet_text = "今日のトレンド記事にゃん\n" + v.Title + "\n" + "qiita.com" + v.Url
 		case "devto":
-			tweet_text := "今日のトレンド記事にゃん\n" + v.Title + "\n" + "dev.to" + v.Url
+			tweet_text = "今日のトレンド記事にゃん\n" + v.Title + "\n" + "dev.to" + v.Url
 		default:
-			tweet_text := "今日のトレンド記事にゃん\n" + v.Title + "\n" + v.Url
+			tweet_text = "今日のトレンド記事にゃん\n" + v.Title + "\n" + v.Url
 		}
-		tweet_text := "今日のトレンド記事にゃん\n" + v.Title + "\n" + v.Url
 		_, err := api.PostTweet(tweet_text, nil)
 		if err != nil {
 			log.Fatal(err)
