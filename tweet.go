@@ -47,16 +47,44 @@ func tweetTrendPosts(api *anaconda.TwitterApi, posts []request.Post) {
 		log.Fatal(err)
 	}
 }
-func main() {
 
+func tweetEachOfAPost(api *anaconda.TwitterApi, posts []request.Post, first_i int) {
+	for _, v := range posts[first_i:] {
+		switch v.Url {
+		case "qiita":
+			tweet_text := "今日のトレンド記事にゃん\n" + v.Title + "\n" + "qiita.com" + v.Url
+		case "devto":
+			tweet_text := "今日のトレンド記事にゃん\n" + v.Title + "\n" + "dev.to" + v.Url
+		default:
+			tweet_text := "今日のトレンド記事にゃん\n" + v.Title + "\n" + v.Url
+		}
+		tweet_text := "今日のトレンド記事にゃん\n" + v.Title + "\n" + v.Url
+		_, err := api.PostTweet(tweet_text, nil)
+		if err != nil {
+			log.Fatal(err)
+		}
+		time.Sleep(30 * time.Minute)
+	}
+}
+
+func main() {
+	flag.Parse()
 	loadEnv()
 
 	api := getTwitterApi()
 
 	result_posts := request.GetTrendPosts()
-	fmt.Printf("%v", result_posts[0].Title)
 
-	tweetTrendPosts(api, result_posts)
+	arg_num, err := strconv.Atoi(flag.Arg(0))
 
-	log.Printf("Hello")
+	if flag.Arg(0) == "trend" {
+		fmt.Println("I will tweet trend.")
+		tweetTrendPosts(api, result_posts)
+	} else if err == nil {
+		fmt.Println("I will tweet one post.")
+		fmt.Printf("Get number arg: %v \n", arg_num)
+		tweetEachOfAPost(api, result_posts, arg_num)
+	}
+
+	log.Printf("have Finished!")
 }
