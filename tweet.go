@@ -22,9 +22,28 @@ func loadEnv() {
 func getTwitterApi() *anaconda.TwitterApi {
 	anaconda.SetConsumerKey(os.Getenv("TWITTER_KEY"))
 	anaconda.SetConsumerSecret(os.Getenv("TWITTER_SECRET"))
-	return anaconda.NewTwitterApi(os.Getenv("ACCESS_TOKEN"), os.Getenv("ACCESS_TOKEN_SECRET"))
+	return anaconda.NewTwitterApi(os.Getenv("ACCESS_TOKEN"), os.Getenv("ACCESS_SECRET"))
 }
 
+func tweetTrendPosts(api *anaconda.TwitterApi, posts []request.Post) {
+	var post_titles []string
+	var text_count int
+	for _, v := range posts {
+		text_count += utf8.RuneCountInString(v.Title)
+		if text_count > 120 {
+			break
+		}
+		post_titles = append(post_titles, v.Title)
+	}
+	posts_text := strings.Join(post_titles, "\n")
+	fmt.Println(posts_text)
+	fmt.Printf("%v \n", utf8.RuneCountInString(posts_text))
+	tweet_text := posts_text + "\n#tagmaru\ntagmaru.me"
+	_, err := api.PostTweet(tweet_text, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 func main() {
 
 	loadEnv()
