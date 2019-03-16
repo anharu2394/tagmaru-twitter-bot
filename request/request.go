@@ -12,6 +12,7 @@ type Post struct {
 	Title    string `json:"title"`
 	Url      string `json:"url"`
 	FabCount int    `json:"fab_count"`
+	Provider string `json:"provider"`
 }
 
 func GetTrendPosts() []Post {
