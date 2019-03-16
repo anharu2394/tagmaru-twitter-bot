@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
+	"unicode/utf8"
 
 	"./request"
 	"github.com/ChimeraCoder/anaconda"
