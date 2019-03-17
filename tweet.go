@@ -12,15 +12,7 @@ import (
 
 	"./request"
 	"github.com/ChimeraCoder/anaconda"
-	"github.com/joho/godotenv"
 )
-
-func loadEnv() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-}
 
 func getTwitterApi() *anaconda.TwitterApi {
 	anaconda.SetConsumerKey(os.Getenv("TWITTER_KEY"))
@@ -69,7 +61,6 @@ func tweetEachOfAPost(api *anaconda.TwitterApi, posts []request.Post, first_i in
 
 func main() {
 	flag.Parse()
-	loadEnv()
 
 	api := getTwitterApi()
 
