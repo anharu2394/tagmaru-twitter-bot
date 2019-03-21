@@ -43,7 +43,7 @@ func tweetTrendPosts(api *anaconda.TwitterApi, posts []request.Post) {
 func tweetEachOfAPost(api *anaconda.TwitterApi, posts []request.Post, first_i int) {
 	for _, v := range posts[first_i:] {
 		var tweet_text string
-		switch v.Url {
+		switch v.Provider {
 		case "qiita":
 			tweet_text = "今日のトレンド記事にゃん\n" + v.Title + "\n" + "qiita.com" + v.Url
 		case "devto":
